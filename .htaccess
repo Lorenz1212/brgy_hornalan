@@ -12,9 +12,9 @@
     RewriteRule .* - [L]
 
     # Allow access to /admin, /superadmin, and /users
+    RewriteCond %{REQUEST_URI} ^/users/ [OR]
     RewriteCond %{REQUEST_URI} ^/admin/ [OR]
-    RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
-    RewriteCond %{REQUEST_URI} ^/users/
+    # RewriteCond %{REQUEST_URI} ^/users/
     RewriteRule .* - [L]
 
     # Redirect all other requests to /users/index.php
