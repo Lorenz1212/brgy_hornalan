@@ -7,14 +7,14 @@
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule .* - [L]
 
-    # Allow access to /admin and /cashier
+    # Allow access to /admin, /superadmin, and /users
     RewriteCond %{REQUEST_URI} ^/admin/ [OR]
     RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
     RewriteCond %{REQUEST_URI} ^/users/
     RewriteRule .* - [L]
 
-    # Redirect other requests to index.php
-    RewriteRule ^ index.php [L,QSA]
+    # Redirect all other requests to /users/index.php
+    RewriteRule ^ users/index.php [L,QSA]
 </IfModule>
 
 # Allow access to PHP, CSS, JS, and media files
