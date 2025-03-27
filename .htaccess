@@ -1,0 +1,23 @@
+# Enable mod_rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Allow access to existing files & directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule .* - [L]
+
+    # Allow access to /admin and /cashier
+    RewriteCond %{REQUEST_URI} ^/admin/ [OR]
+    RewriteCond %{REQUEST_URI} ^/superadmin/ [OR]
+    RewriteCond %{REQUEST_URI} ^/users/
+    RewriteRule .* - [L]
+
+    # Redirect other requests to index.php
+    RewriteRule ^ index.php [L,QSA]
+</IfModule>
+
+# Allow access to PHP, CSS, JS, and media files
+<FilesMatch "\.(php|html|css|js|jpg|png|gif|ico|svg|woff|ttf|pdf)$">
+    Require all granted
+</FilesMatch>
