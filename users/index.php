@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start session
 require '../connection/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
