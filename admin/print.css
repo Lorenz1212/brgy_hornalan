@@ -1,0 +1,180 @@
+
+
+/* Modal Background */
+.modal {
+    display: none; /* Dapat default ay hidden */
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* Modal Content - Centered */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center both vertically & horizontally */
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80vw;
+    height: 70vh;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover {
+    color: red;
+}
+
+/* Header Layout */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px; /* Magdadagdag ng space sa taas */
+}
+
+
+.modal-header img {
+    height: 100px; /* Dati 75px, ngayon mas malaki */
+    margin: 0 25px; /* Bahagyang in-adjust para mas pantay */
+}
+
+
+.head {
+    text-align: center;
+}
+
+.head p {
+    margin: 2px 0;
+    font-size: 12px;
+}
+
+.head h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Underline Divider */
+.underline {
+    width: 100%;
+    border-bottom: 2px solid black;
+    margin: 15px 0;
+}
+
+/* Clearance Title */
+.contentbrgy {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.contentbrgy h1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Content Body */
+.contents {
+    text-align: left;
+    padding: 30px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Bold Elements */
+.contents span {
+    font-weight: bold;
+}
+
+/* Adjust Specific Text Styling */
+#details, #clearancePurpose {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* Footer Section */
+.punongbrgy {
+    margin-top: 40px;
+    text-align: left;
+}
+
+.punongbrgy p {
+    margin: 0;
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+
+/* Signature Line */
+.punongbrgy p:first-child {
+    display: inline-block;
+    width: 120px;
+    border-bottom: 1px solid black;
+    padding-top: 5px;
+}
+
+/* Print Button */
+.modal-content button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: block;
+    margin-right: auto;
+    margin-top: 4%;
+    margin-left: 40%;
+    width: 20%;
+    
+    
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+}
+
+/* Print View Adjustments */
+@media print {
+    .modal-content button,
+    .close {
+        display: none;
+    }
+
+    .modal {
+        margin-top: 20px;
+    }
+
+    .modal-content {
+        border: none;
+        width: 100%;
+        margin: 0;
+        height: 100%;
+    }
+}
+@page {
+    size: auto;
+    margin: 0;
+}

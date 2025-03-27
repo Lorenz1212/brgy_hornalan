@@ -1,0 +1,96 @@
+/* General styles */
+.container-profile {
+  
+
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    margin-top: 1%;
+   height: 550px;
+   border-radius: 10px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-container {
+    text-align: right;
+    align-items: left;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-info p {
+    margin: 5px 0;
+}
+
+.left, .right {
+    margin: 20px;
+}
+
+
+.edit-profile label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.edit-profile input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box; 
+    border: 1px solid #2c2c2c;
+    border-radius: 5px;
+}
+
+.edit-profile button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.edit-profile button:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+
+/* Error and success message styles */
+.error, .success {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.error {
+    background-color: #f44336;
+    color: white;
+}
+
+.success {
+    background-color: #4CAF50;
+    color: white;
+}
+.icon-container {
+    text-align: center;
+   
+}
+
+.icon-container i {
+    font-size: 150px;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 600px) {
+    .edit-profile input {
+        width: calc(100% - 16px); /* Adjusting for padding */
+    }
+}
+

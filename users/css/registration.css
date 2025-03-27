@@ -1,0 +1,108 @@
+/* CSS for registration form */
+.regis-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.regis-container h2 {
+    text-align: center;
+}
+
+.step-section {
+    display: none;
+}
+
+.step-section.active {
+    display: block;
+}
+
+/* Style for form labels and inputs */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input[type="text"],
+select,
+input[type="date"] {
+    width: 100%;
+    padding: 4px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    width: 100%;
+}
+
+/* Style for navigation buttons */
+#navigationButtons {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#navigationButtons button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#submitButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+}
+
+#submitButton:hover {
+    background-color: #45a049;
+}
+
+#section1 {
+    margin-bottom: 20px;
+    width: 90%;
+    height: 50%;
+}
+
+
+#section2 {
+    margin-bottom: 20px;
+}
+
+/* CSS for section 3 */
+#section3 {
+    margin-bottom: 20px;
+}
+.step-section {
+    display: none;
+}
+
+.step-section.active {
+    display: block;
+}
+
+.registration-message {
+background-color: #f0f0f0;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+}
+
+.check-icon {
+color: green;
+font-size: 48px;
+margin-bottom: 20px;
+}

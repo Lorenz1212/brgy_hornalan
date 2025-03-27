@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+    font-family: "Poppins", sans-serif;
+}
+    
+/* ✅ BODY STYLING */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url("../image/superadmin.png") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-attachment: fixed;
+    overflow: hidden; /* Para walang scroll */
+    position: relative;
+}
+
+/* ✅ PSEUDO-ELEMENT PARA SA BLUR EFFECT */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit; /* Kukunin ang original background */
+    filter: blur(2px); /* ✅ Mas malinaw pero blurred */
+    opacity: 0.9; /* ✅ Hindi sobrang labo */
+    z-index: -1; /* Para sa likod */
+}
+
+
+.indext-container, .form {
+    margin: 0 auto;
+    width: 320px;
+    padding: 20px 25px 25px; 
+    background-color: rgba(255, 255, 255, 0.70); 
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(3px); 
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+}
+
+.title h1 {
+    font-size: 25px;
+    margin-bottom: 15px;
+    margin-top: 3px;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-container label {
+    position: absolute;
+    left: 12px; 
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 18px;
+}
+
+.input-container input[type="text"],
+.input-container input[type="password"],
+.input-container input[type="submit"] {
+    width: 100%; 
+    padding: 12px;
+    padding-left: 40px; 
+    margin: 5px 0;
+    border: none; 
+    border-bottom: 2px solid #7d7e7d; 
+    border-radius: 5px;
+    box-sizing: border-box;
+    outline: none; 
+    background: rgba(255, 255, 255, 0.70);
+}
+
+button[name="login"]  {
+    width: 70%; 
+    padding: 8px;
+    border: none;
+    border-radius: 5px; 
+    background: #16a085;;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin: 15px 15%;
+}
+
+button[name="login"]:hover {
+    background-color: #16a085; 
+    color: #020202;
+    transform: scale(1.1); 
+}
+
+.input-container label i {
+    color: #333;
+}
+
+.logo-image img {
+    width: 100px; 
+    height: auto; 
+    background: none;
+    margin-left: -5px;
+    margin-top: 10px; 
+}
+
+.title{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center; 
+} 
+
+.error {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.image-con {
+    width: 10%;
+}
+
+.container-index{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.iconvar img{
+    width: 60%;
+}
+
+.text {
+    text-align: left;
+    margin-top: 15px;
+}
+
+.text p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.text a {
+    color: #007bff; 
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.text a:hover {
+    text-decoration: underline;
+}
+
+
+.input-container {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: gray;
+  font-size: 18px;
+}
+
+/* ✅ Fade-in effect kapag galing sa signup */
+.fade-in {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .indext-container, .form {
+        width: 80%;
+        padding: 20px 15px; 
+    }
+
+    .title h1 {
+        font-size: 22px; /* Adjusted for smaller screens */
+    }
+
+    .input-container input[type="text"],
+    .input-container input[type="password"],
+    .input-container input[type="submit"] {
+        padding-left: 30px; /* Less padding for smaller screens */
+    }
+
+    .logo-image img {
+        width: 80px; /* Adjust logo size */
+    }
+
+    button[name="login"] {
+        width: 80%; 
+    }
+
+    .text p {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 0 10px; /* Adjust padding for small screens */
+    }
+
+    .indext-container, .form {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .title h1 {
+        font-size: 18px;
+    }
+
+    .input-container input[type="text"],
+    .input-container input[type="password"],
+    .input-container input[type="submit"] {
+        padding-left: 25px;
+    }
+
+    .logo-image img {
+        width: 60px; /* Adjust logo size */
+    }
+
+    button[name="login"] {
+        width: 90%; /* Larger buttons for mobile */
+    }
+
+    .text p {
+        font-size: 12px;
+    }
+
+    .text a {
+        font-size: 12px; /* Adjust link size for mobile */
+    }
+}

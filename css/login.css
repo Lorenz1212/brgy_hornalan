@@ -1,0 +1,237 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ✅ Main Body Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url("../image/bg.png") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ✅ BLUR EFFECT USING PSEUDO-ELEMENT */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit; /* Kukunin ang original background */
+    filter: blur(3px); /* ✅ Mas malinaw pero may konting blur */
+    opacity: 0.9; /* ✅ Para di sobrang labo */
+    z-index: -1; /* Para nasa likod ng lahat */
+
+}
+
+
+
+
+/* ✅ Login Container (Centered) */
+.indext-container, .form {
+    width: 380px;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.70);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(3px);
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* I-center ang laman sa loob */
+}
+
+
+/* ✅ Title Styling */
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Hindi naka-center */
+    gap: 15px;
+}
+
+.title h1 {
+    font-size: 25px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* ✅ Dinagdag na h2 */
+h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: left; /* Inalis ang center alignment */
+}
+
+.logo-image img {
+    width: 90%;
+    width: 110px;
+}
+
+/* ✅ Input Container */
+.input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 12px;
+    padding-left: 40px;
+    margin: 5px 0;
+    border: none;
+    border-bottom: 2px solid #7d7e7d;
+    border-radius: 5px;
+    box-sizing: border-box;
+    outline: none;
+    background: rgba(255, 255, 255, 0.70);
+}
+
+
+/* ✅ User & Lock Icons (Ilalagay sa Kaliwa) */
+.input-container i.fas.fa-user,
+.input-container i.fas.fa-lock {
+    position: absolute;
+    left: 10px; /* Dikit sa kaliwa */
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    font-size: 16px;
+}
+
+
+button[name="login"] {
+    width: 70%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #34495e;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3sease;
+    margin: 20px 15%;
+}
+
+button[name="login"]:hover {
+    background-color: #16a085;
+    transform: scale(1.05);
+}
+
+/* ✅ Text Links */
+.text {
+    text-align: left; /* Hindi na center */
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+.text a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.text a:hover {
+    text-decoration: underline;
+}
+
+
+/* ✅ Fully Responsive Design */
+
+@media (max-width: 1024px) {
+    body {
+        padding: 20px;
+        background-size: cover; /* Keeps background size cover on tablets */
+    }
+}
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    .indext-container {
+        width: 90%;
+        max-width: 400px;
+        padding: 20px;
+        text-align: center;
+        
+    }
+
+    .title h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .input-container input {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    button[name="login"] {
+        font-size: 15px;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .logo-image img {
+        width: 90%;  /* Medyo lumiit sa tablet */
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+    }
+    .indext-container {
+        width: 95%;
+        max-width: 350px;
+        padding: 18px;
+    }
+
+    .title h1 {
+        font-size: 18px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .input-container input {
+        font-size: 14px;
+        padding: 10px;
+        padding-left: 35px; /* Para hindi sumikip ang text */
+    }
+
+    button[name="login"] {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .text {
+        font-size: 13px;
+    }
+    .logo-image img {
+        width: 100%;  /* Mas maliit sa mobile */
+        max-width: 120px;
+    }
+}

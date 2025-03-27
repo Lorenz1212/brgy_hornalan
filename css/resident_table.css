@@ -1,0 +1,704 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table,
+th,
+td {
+  padding: 8px;
+}
+
+th.left,
+td.left {
+  text-align: left;
+}
+
+th.right,
+td.right {
+  text-align: right;
+}
+
+th.center,
+td.center {
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+.tabs {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Style the tab links */
+.tabs a {
+  display: inline-block;
+  background-color: rgb(226, 223, 223);
+  color: black;
+  text-align: center;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  border: 1px solid #ccc;
+  border-top-right-radius: 10px;
+  font-size: 13px;
+}
+/* Change background color of tab links on hover */
+.tabs a:hover {
+  background-color: #bbb9b9;
+}
+
+/* Create an active/current tablink class */
+.tabs a.active {
+  background-color: white; /* Change background color for active tab */
+  border-bottom: 2px solid #4caf50; /* Add a bottom border for active tab */
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+/* Additional CSS for the button and search bar */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.left-button {
+  padding: 6px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.search-container button {
+  padding: 4px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Adjustments for responsive design */
+@media screen and (max-width: 600px) {
+  .tab-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .left-button {
+    margin-bottom: 10px;
+  }
+}
+.left-button {
+  transition: transform 0.1s ease;
+}
+
+.left-button:hover {
+  transform: scale(1.1);
+}
+
+/* Popup form styles */
+.popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  margin-top: 7%;
+}
+.popupform-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.popup-content {
+  display: grid;
+  grid-template-columns: repeat(2);
+  grid-gap: 10px;
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  height: 75%;
+}
+.modal-title {
+  background-color: #000;
+  color: white;
+}
+.modal-title h2 {
+  margin-top: -2%;
+  font-size: 16px;
+  margin-left: 3%;
+}
+.name {
+  margin-bottom: 1%;
+  margin-left: 4%;
+}
+.name span {
+  font-weight: bold;
+  font-size: 20px;
+  background-color: #ccc;
+}
+.grid-row {
+  display: flex;
+}
+.edit-button {
+  margin-bottom: 5%;
+}
+.grid-row input,
+.grid-row select {
+  flex: 1;
+  margin-bottom: 10px;
+  margin-right: 10%;
+}
+.grid-row input[type="submit"] {
+  /* Styling for submit button */
+  width: auto; /* Set width to auto */
+  padding: 10px 20px; /* Add padding to button */
+  background-color: #007bff; /* Set background color */
+  color: #fff; /* Set text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Add border radius */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.grid-row input[type="submit"]:hover {
+  /* Hover effect for submit button */
+  background-color: #0056b3; /* Darker background color */
+}
+.close-button {
+  display: flex;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  margin-top: -2%;
+  width: 5%;
+}
+.navs h2 {
+  margin-top: 1%;
+  margin-left: 20%;
+}
+.navss h2 {
+  margin-top: 1%;
+  margin-left: 40%;
+}
+
+.success-message-green {
+  color: green;
+}
+
+/* Popup form styles */
+.popup-edit {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  overflow: auto;
+  margin-top: 7%;
+}
+
+.popup-contitle {
+  margin-top: -1%;
+}
+.editform-table {
+  margin-left: 5%;
+}
+.popup-content-edit {
+  align-items: start;
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  margin: 1% auto; /* Center the popup vertically and horizontally */
+}
+
+.navs {
+  display: flex;
+  flex-direction: row;
+}
+.res-input {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 10px;
+}
+.res-infos {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 20px;
+  font-size: 13px;
+}
+
+/* Left column */
+.popup-content-edit .left-column {
+  grid-column: 1 / 2; /* Span from first to second column */
+}
+
+/* Right column */
+.popup-content-edit .right-column {
+  grid-column: 2 / 3; /* Span from second to third column */
+}
+
+.popup-content-edit input[type="text"],
+.popup-content-edit input[type="email"],
+.popup-content-edit input[type="date"],
+.popup-content-edit select {
+  width: calc(100% - 20px); /* Adjust input width */
+  padding: 1px;
+  border: 1px solid #ccc;
+  border-radius: 1 px;
+  box-sizing: border-box;
+}
+
+.popup-content-edit textarea {
+  width: calc(100% - 20px); /* Adjust textarea width */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  height: 100px; /* Set height for textarea */
+  resize: vertical; /* Allow vertical resizing */
+}
+
+.popup-content-edit input[type="submit"] {
+  width: calc(100% - 20px); /* Adjust submit button width */
+  padding: 10px;
+  background-color: #4caf50;
+  margin-top: 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup-content-edit input[type="submit"]:hover {
+  background-color: #45a049;
+}
+.popup-content-view .close-button {
+  margin-top: 0.1%;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px;
+}
+
+.dashboard-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 200px;
+  height: 80px;
+  float: left;
+  text-align: center;
+  font-size: 12px;
+  background-color: rgb(22, 22, 51);
+  color: white;
+  margin-bottom: 2%;
+  transition: transform 0.2s ease;
+  border-radius: 2px;
+}
+.dashboard-box:hover {
+  transform: scale(1.1);
+  background-color: #e0dede;
+  color: black;
+}
+
+#vaccinationTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#vaccinationTable button {
+  margin: 5px;
+}
+
+#vaccinationTable th,
+#vaccinationTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#vaccinationTable th {
+  background-color: #f2f2f2;
+}
+
+#vaccinationTable tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#vaccinationTable tbody tr:hover {
+  background-color: #ddd;
+}
+
+/* Responsive table */
+@media screen and (max-width: 600px) {
+  #vaccinationTable {
+    overflow-x: auto;
+  }
+}
+
+.filter-container,
+.search-container {
+  display: inline-block;
+  vertical-align: top;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.filter-container label,
+.search-container label {
+  margin-right: 10px;
+}
+
+.search-container input[type="text"] {
+  padding: 5px;
+  width: 200px;
+  box-sizing: border-box;
+}
+
+#defaultOpen {
+  background-color: white;
+}
+#editModal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: -10px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.firstInp p,
+.secondInp p,
+.ThirdInp p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.popup-view {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content-view {
+  background-color: #fefefe;
+  margin: 10% auto;
+  border: 1px solid #888;
+  width: 70%;
+}
+
+.close-button {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.resident-info p {
+  margin: 5px 0;
+}
+.profile-image img {
+  width: 60%;
+  margin-left: 5%;
+}
+
+.info1 {
+  float: left;
+  margin-left: -70%;
+  width: 80%;
+}
+
+.info2 {
+  float: left;
+  margin-left: -50%;
+  width: 80%;
+}
+
+.popup-content input[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.1s ease;
+}
+
+.popup-content input[type="submit"]:hover {
+  background-color: #45a049;
+  transform: scale(1.1);
+}
+
+/* Style for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Style for the modal content */
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  margin-top: 15%;
+  margin-bottom: 10%;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+/* Close button style */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Style for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+table th {
+  background-color: #f2f2f2;
+}
+
+/* Modal Content */
+.modal-content-view {
+  background-color: #fefefe;
+  margin: 5% auto; /* 5% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Add some shadow */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Close Button */
+
+/* Title Container */
+.title-con {
+  text-align: center;
+  color: black;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Table Styling */
+.modal-content-view table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.modal-content-view th,
+.modal-content-view td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.modal-content-view th {
+  background-color: #f2f2f2;
+}
+/* Table Container Styles */
+.table-con {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 10px;
+  margin-top: 20px; /* Add some top margin */
+  border: 1px solid #ccc; /* Add border for visual separation */
+  border-radius: 5px; /* Rounded corners */
+  padding: 20px; /* Add padding for spacing */
+  font-size: 12px;
+}
+
+/* Table Styles */
+.table-con p {
+  margin: 5px 0;
+}
+
+/* Table Cell Styles */
+.table-con span {
+  font-weight: bold; /* Make text bold */
+}
+
+/* Table Styles */
+.table-con table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-con th,
+.table-con td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-con th {
+  background-color: #f2f2f2;
+}
+
+/* Table Cell Styles */
+.table-con th:first-child,
+.table-con td:first-child {
+  border-left: none;
+}
+
+.table-con th:last-child,
+.table-con td:last-child {
+  border-right: none;
+}
+.modals {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  padding-top: 5%;
+  padding-left: 2%;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.logo {
+  width: 15%; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px; /* Add some spacing between the logo and the title */
+}
+/* CSS for the print button */
+.modal-content-view button {
+  padding: 5px 8px; /* Adjust padding as needed */
+  background-color: #4caf50; /* Green background color */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Add cursor pointer on hover */
+  margin-top: 2%;
+  margin-left: 40%;
+  width: 20%;
+}
+
+.modal-content-view button:hover {
+  background-color: #45a049; /* Darker green color on hover */
+}

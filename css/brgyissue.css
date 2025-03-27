@@ -1,0 +1,216 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Add hover effect to table rows */
+tr:hover {
+  background-color: #f5f5f5; /* Change the background color on hover */
+}
+
+.nav-container {
+  margin-bottom: 20px;
+  margin-top: 1%;
+}
+.nav-container .header {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.nav-container .header .search-bar {
+  width: 300px;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.nav-container .header .add-new {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.dashboard-container {
+  margin: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-box {
+  width: 50%;
+  height: 10%;
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: white;
+}
+.dashboard-box:hover {
+  background-color: #aaa8a8;
+  color: black;
+}
+.dashboard-box p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.dashboard-box span {
+  font-size: 15px;
+}
+/* Modal container */
+.modal {
+  display: none; /* Hidden by default */
+
+  position: fixed;
+  z-index: 1000;
+
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.content-new {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.modal-container {
+  display: flex;
+  height: 100%;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal content */
+.modal-content {
+  width: 90vh;
+  height: 70vh;
+  border-radius: 5px;
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Input fields and labels */
+label {
+  margin-top: 10px;
+  display: block;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="textarea"],
+select {
+  width: 100%;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: 100%;
+}
+
+/* Submit button */
+input[type="button"] {
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 50%;
+}
+
+input[type="button"]:hover {
+  background-color: #45a049;
+}
+
+/* Add some padding to the modal body */
+
+.modal-content img {
+  height: 100px;
+  width: auto;
+}
+
+.table-container {
+  overflow: auto;
+  max-height: 50vh;
+}
+
+/* Center the modal content */
+
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-evenly;
+
+  margin-bottom: 30px;
+}
+
+.brgy-info {
+}
+
+.modal-content {
+  padding: 20px;
+  text-align: center;
+}
+
+table th:first-child {
+  color: red;
+}
+
+table td:first-child {
+  color: red;
+}

@@ -1,0 +1,313 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  position: sticky;
+    top: 0;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+.container {
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.container-docu{
+  padding-left: 280px;
+  height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    margin: 40px;
+}
+#searchInput {
+  width: 20%;
+  padding: 5px 10px;
+  margin-bottom: 1%;
+  box-sizing: border-box;
+}
+
+.search {
+  margin: 10px;
+  margin-bottom: 40px;
+  height: 30px;
+}
+
+/* CSS for edit and delete buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons a {
+  color: #555;
+  text-decoration: none;
+  padding: 4px;
+}
+
+.action-buttons a:hover {
+  color: #333;
+}
+
+.action-buttons .fa-edit {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 2px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.action-buttons .fa-trash {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 6px 6px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 2px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+ 
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: 2% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80vw;
+  height: 85vh;
+  max-width: 800px;
+  border-radius: 8px;
+}
+
+.underline {
+  width: 100%;
+  margin-top: 20px;
+  border-bottom: 2px solid black; 
+  padding-bottom: 5px; 
+  margin-bottom: 20px;
+}
+.contents {
+  padding: 30px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.modal-content img {
+  height: 100px;
+}
+
+.punongbrgy {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+/* Header */
+.head {
+  text-align: center;
+  margin-bottom: 20px;
+  
+}
+
+
+/* Content */
+.contentbrgy {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.contentbrgy h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Body */
+.modal-content h2 {
+  font-weight: 500;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.modal-content p {
+  margin-bottom:0px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Footer */
+.modal-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Style the last paragraph */
+.modal-content p:last-child {
+  margin-bottom: 0; /* Remove bottom margin for the last paragraph */
+}
+
+/* Style the span elements inside paragraphs */
+.modal-content p span {
+  font-weight: bold;
+}
+
+/* ID-specific styling */
+#details2 {
+  font-style: italic;
+}
+
+#pMonth,
+#pDay,
+#pYear,
+#pAddress,
+#pCaptain,
+#pDateIssued {
+  font-weight: bold;
+}
+
+.punongbrgy {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.punongbrgy p:last-child {
+  border-top: 1px solid black;
+}
+
+/* CSS for the print button */
+.modal-content button {
+  padding: 5px 8px; /* Adjust padding as needed */
+  background-color: #4caf50; /* Green background color */
+  color: white; /* White text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Add cursor pointer on hover */
+  margin-top: 2%;
+  margin-left: 40%;
+  width: 20%;
+}
+
+
+@media print {
+  
+  .modal-content button {
+    display: none;
+  }
+  .close {
+    display: none;
+  }
+
+  .modal {
+    
+    margin-top: 20px;
+  }
+  .modal-content {
+    border: none;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+  }
+}
+
+.modal-content button:hover {
+  background-color: #45a049; /* Darker green color on hover */
+}
+
+.table-payment {
+  width: 100%;
+  max-height: 380px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+
+#paymentTable {
+  width: 100%; /* Ensure the table takes the full width */
+  border-collapse: collapse;
+   /* Collapse table borders */
+}
+
+#paymentTable th,
+#paymentTable td {
+  border: 1px solid #ddd; /* Add border to table cells */
+  padding: 8px; /* Add padding to table cells */
+  text-align: left; /* Align text to the left */
+}
+
+#paymentTable th {
+  background-color: #f2f2f2; /* Add background color to table header */
+}
+table td:first-child {
+  color: red;
+}
+
+.sidse{
+  width: 320px;
+  
+}
