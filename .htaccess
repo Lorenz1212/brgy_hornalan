@@ -5,6 +5,10 @@
     # Set RewriteBase (if needed)
     RewriteBase /
 
+    # Redirect root domain to admin/index.php
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^ admin/index.php [L,R=302]
+
     # Allow direct access to existing files and directories
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
