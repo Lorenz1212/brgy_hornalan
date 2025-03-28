@@ -4,7 +4,7 @@ include '../connection/connect.php'; // Database Connection
 
 
 if (!isset($_SESSION['user'])) {
-    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='users.php';</script>";
+    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='index.php';</script>";
     exit();
 }
 // Cache prevention
