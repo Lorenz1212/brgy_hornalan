@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <form id="signupForm" action="signup_process.php" method="post" class="fade-in">
         <!-- Close Button -->
-<button class="close-btn" onclick="window.location.href='user.php'">✖</button>
+<button class="close-btn" onclick="window.location.href='index.php'">✖</button>
 
     
     <label for="user">Username:</label>
