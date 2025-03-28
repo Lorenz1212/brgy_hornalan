@@ -3,7 +3,7 @@ session_start();
 require '../connection/connect.php';
 
 if (!isset($_SESSION['user'])) {
-    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='user.php';</script>";
+    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='index.php';</script>";
     exit();
 }
 // Cache prevention
