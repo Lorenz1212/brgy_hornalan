@@ -2,26 +2,23 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Force HTTPS
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    # Set RewriteBase (if needed)
+    RewriteBase /
 
-    # Allow access to existing files & directories
+    # Allow direct access to existing files and directories
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule .* - [L]
+    RewriteRule ^ - [L]
 
-    # Allow access to /admin, /superadmin, and /users
-    RewriteCond %{REQUEST_URI} ^/users/ [OR]
-    RewriteCond %{REQUEST_URI} ^/admin/ [OR]
-    # RewriteCond %{REQUEST_URI} ^/users/
-    RewriteRule .* - [L]
+    # Allow access to /admin, /users, and /superadmin
+    RewriteCond %{REQUEST_URI} ^/(admin|users|superadmin)/ [NC]
+    RewriteRule ^ - [L]
 
-    # Redirect all other requests to /users/index.php
-    RewriteRule ^ users/index.php [L,QSA]
+    # Redirect all other requests to index.php
+    RewriteRule ^(.*)$ index.php [L,QSA]
 </IfModule>
 
 # Allow access to PHP, CSS, JS, and media files
-<FilesMatch "\.(php|html|css|js|jpg|png|gif|ico|svg|woff|ttf|pdf)$">
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|ttf|pdf)$">
     Require all granted
 </FilesMatch>

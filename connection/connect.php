@@ -1,8 +1,13 @@
 <?php
-$host = "localhost"; // Change this if your database is hosted on a different server
-$username = "root"; // Your MySQL username
-$password = ""; // Your MySQL password
-$database = "brgy_info"; // Name of your database
+// $host = "localhost";
+// $username = "root";
+// $password = ""; 
+// $database = "brgy_info"; 
+
+$host = "localhost";
+$username = "u856582098_hornalan";
+$password = "O?8/D046q|"; 
+$database = "u856582098_hornalan"; 
 
 // Create connection
 $conn = new mysqli($host, $username, $password, $database);
