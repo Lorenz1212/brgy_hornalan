@@ -18,7 +18,7 @@ $stmt->close();
 if ($session_active == 0) {
     session_unset();
     session_destroy();
-    header("Location: admin_login.php");
+    header("Location: index.php");
     exit();
 }
 
