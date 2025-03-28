@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="form-container fade-in">
     <!-- ✅ X Button - Now Fully Fixed -->
-    <button class="close-btn" onclick="window.location.href='user.php'" onfocus="this.blur()" tabindex="-1">✖</button>
+    <button class="close-btn" onclick="window.location.href='index.php'" onfocus="this.blur()" tabindex="-1">✖</button>
 
     <form id="signupForm" action="authentication.php" method="post">
         <label for="birthday">Birthday:</label>
