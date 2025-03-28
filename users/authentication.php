@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     content: 'small-content'
                 }
             }).then(() => {
-                window.location.href = "user.php";
+                window.location.href = "index.php";
             });
 
         } else if (responseText.includes("Username already exists")) {
