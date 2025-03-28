@@ -191,7 +191,7 @@ session_start(); // Start the session
         <input type="tel" id="contact" name="contact" pattern="[0-9]{11}" placeholder="09XXXXXXXXX" required autocomplete="off" autocorrect="off" spellcheck="false">
         
         <div class="login-link">
-            <p>Already have an account? <a href="user.php">Log in here</a></p>
+            <p>Already have an account? <a href="index.php">Log in here</a></p>
         </div>
 
         <button type="submit">Next</button>
