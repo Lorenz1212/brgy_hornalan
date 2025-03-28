@@ -125,7 +125,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
     loginButton.disabled = true;
 
-    fetch("admin_login.php", {
+    fetch("index.php", {
         method: "POST",
         body: new URLSearchParams(formData),
         headers: { "Content-Type": "application/x-www-form-urlencoded" }

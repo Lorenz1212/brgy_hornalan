@@ -16,6 +16,6 @@ header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 
 // Redirect sa user login page
-header("Location: user.php");
+header("Location: index.php");
 exit();
 ?>
