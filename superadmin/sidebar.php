@@ -97,7 +97,11 @@ $requestCounts['Approved_Certificate'] = $approvedCertificateRow['count'] > 0 ? 
             <i class="fa fa-tachometer-alt"></i> Dashboard
         </a></li>
         <li><a href="brgy_officials.php" class="nav-link <?php echo ($current_page == 'brgy_officials.php') ? 'active' : ''; ?>">
-            <i class="fa fa-users"></i> Barangay Officials
+        <div class="title-container"> <i class="fa fa-users"></i>
+                    <div class="text">
+                        Barangay Elected <br> Officials
+                    </div>
+            </div>
         </a></li>
         <li><a href="resident_list.php" class="nav-link <?php echo ($current_page == 'resident_list.php') ? 'active' : ''; ?>">
             <i class="fa fa-list"></i> Resident List</a></li>
@@ -272,4 +276,13 @@ document.addEventListener("DOMContentLoaded", function () {
     background-color: #1abc9c;
 }
 
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espasyo sa pagitan ng icon at text */
+}
+
+.text {
+    line-height: 1.2; /* Para mas maayos ang spacing ng text */
+}
 </style>

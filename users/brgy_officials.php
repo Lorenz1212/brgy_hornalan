@@ -219,7 +219,7 @@ body {
 <body>
     <div class="content-wrapper">
         <div class="header-container">
-            BARANGAY OFFICIALS
+            BARANGAY ELECTED OFFICIALS
         </div>
 
         <div class="officials-container">

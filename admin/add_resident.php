@@ -129,12 +129,12 @@ if ($session_active == 0) {
         <h2>Add Resident</h2>
         <form action="add_resident_process.php" method="POST">
             <div class="input-group">
-                <label>Complete Address</label>
-                <input type="text" name="complete_address" required>
+                <label>Address</label>
+                <input type="text" name="complete_address" required autocomplete="off">
             </div>
             <div class="input-group">
                 <label>Name of Family Member</label>
-                <input type="text" name="name_of_family_member" required>
+                <input type="text" name="name_of_family_member" required autocomplete="off">
             </div>
             <div class="input-group">
                 <label>Position in the Family</label>
@@ -151,7 +151,7 @@ if ($session_active == 0) {
             </div>
             <div class="input-group">
                 <label>Age</label>
-                <input type="number" name="age" required>
+                <input type="number" name="age" required autocomplete="off">
             </div>
             <div class="input-group">
                 <label>Civil Status</label>
@@ -163,11 +163,11 @@ if ($session_active == 0) {
             </div>
             <div class="input-group">
                 <label>Occupation/Source of Income</label>
-                <input type="text" name="occupation_source_of_income" required>
+                <input type="text" name="occupation_source_of_income" required autocomplete="off">
             </div>
             <div class="input-group">
                 <label>Contact Number</label>
-                <input type="text" name="contact_number">
+                <input type="text" name="contact_number" autocomplete="off">
             </div>
             <div class="button-group">
                 <button type="submit" class="btn btn-save">Save Resident</button>

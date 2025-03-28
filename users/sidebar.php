@@ -171,7 +171,11 @@ $(document).ready(function() {
         <ul>
             <li><a href="../users/prof.php" class="<?php echo basename($_SERVER['SCRIPT_NAME']) == 'prof.php' ? 'active' : ''; ?>"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
 
-            <li><a href="brgy_officials.php" class="<?php echo basename($_SERVER['SCRIPT_NAME']) == 'brgy_officials.php' ? 'active' : ''; ?>"><i class="fa fa-users"></i> Barangay Officials</a></li>
+            <li><a href="brgy_officials.php" class="<?php echo basename($_SERVER['SCRIPT_NAME']) == 'brgy_officials.php' ? 'active' : ''; ?>"><div class="title-container"> <i class="fa fa-users"></i>
+                    <div class="text">
+                        Barangay Elected <br> Officials
+                    </div>
+            </div></a></li>
 
             <li><a href="pending_requests.php" class="<?php echo basename($_SERVER['SCRIPT_NAME']) == 'pending_requests.php' ? 'active' : ''; ?>">
                 <i class="fa fa-clock"></i> Pending Requests <span class="badge" id="pendingBadge"></span></a></li>
@@ -216,4 +220,14 @@ $(document).ready(function() {
     transition: background-color 0.3s ease;
 }
 
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espasyo sa pagitan ng icon at text */
+}
+
+.text {
+    line-height: 1.2; /* Para mas maayos ang spacing ng text */
+    text-align: left;
+}
 </style>

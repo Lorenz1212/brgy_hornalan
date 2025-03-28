@@ -342,7 +342,7 @@ body {
         <th>Purpose</th>
         <th>Scheduled Date</th>
         <th>Payment</th>
-        <th>Username</th>
+        <th>Email</th>
         <th>Contact</th>
         <th>Claimed Date</th>
     </tr>

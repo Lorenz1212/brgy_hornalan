@@ -25,7 +25,7 @@ if (isset($_SESSION['username'])) {
     session_unset();  // Unset all session variables
     session_destroy();  // Destroy the session
     // Redirect sa admin login page
-    header("Location: index.php");
+    header("Location: admin_login.php");
     exit();
 }
 ?>

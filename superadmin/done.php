@@ -320,6 +320,91 @@ mysqli_close($conn);
             opacity: 0.9;
             transform: scale(1.05);
         }
+
+        /* Custom Styles for SweetAlert2 Popup */
+.swal-container {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.swal-popup {
+    border-radius: 10px;
+    padding: 20px;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.swal-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.swal-content {
+    font-size: 16px;
+    color: #555;
+}
+
+.selectable-field {
+    font-size: 14px;
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #eaf1f1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.selectable-field:hover {
+    background-color: #d5e6e6;
+}
+
+.swal-confirm-btn {
+    background-color: #27ae60;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.swal-confirm-btn:hover {
+    background-color: #2ecc71;
+}
+
+.swal-cancel-btn {
+    background-color: #e74c3c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.swal-cancel-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Highlight incorrect fields in red */
+.selectable-field.red {
+    color: red;
+    font-weight: bold;
+}
+
+/* Adjust the input text in the popup */
+.selectable-field span {
+    font-weight: normal;
+    color: #555;
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -366,7 +451,18 @@ mysqli_close($conn);
                             <td>
                                 <div class="btn-container">
                                     <a href="javascript:void(0);" onclick="approveRequest('<?php echo $row['id']; ?>')"class="btn btn-claimed">✔ Claimed</a>
-                                    <a href="javascript:void(0);" class="btn trash-btn" onclick="confirmTrash('<?php echo $row['id']; ?>')">🗑 Trash</a>
+                                    <a href="javascript:void(0);" 
+                                    class="btn trash-btn" 
+                                    onclick="confirmTrash(
+                                        '<?php echo $row['id']; ?>', 
+                                        '<?php echo addslashes($row['name']); ?>', 
+                                        '<?php echo addslashes($row['address']); ?>', 
+                                        '<?php echo $row['birthday']; ?>', 
+                                        '<?php echo $row['year_stay_in_brgy']; ?>', 
+                                        '<?php echo addslashes($row['contact']); ?>'
+                                    )">
+                                    🗑 Trash
+                                </a>
                                 </div>
                             </td>
                         </tr>
@@ -379,34 +475,75 @@ mysqli_close($conn);
 </html>
 
 <script>
-function confirmTrash(id) {
+    function confirmTrash(id, name, address, birthday, yearsStayed, contact) {
+    let invalidFields = []; // Store incorrect fields
+    let statusReason = ""; // Store reason for trash
+
     Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to move this record to trash?",
-        icon: 'warning',
+        title: 'Select Incorrect Fields',
+        html: `
+            <p><strong>Click the incorrect fields:</strong></p>
+            <div id="fieldContainer">
+                <p class="selectable-field" data-key="name">Name: <span>${name}</span></p>
+                <p class="selectable-field" data-key="address">Address: <span>${address}</span></p>
+                <p class="selectable-field" data-key="birthday">Birthday: <span>${birthday}</span></p>
+                <p class="selectable-field" data-key="yearsStayed">Years Stayed: <span>${yearsStayed}</span></p>
+                <p class="selectable-field" data-key="contact">Contact: <span>${contact}</span></p>
+            </div>
+        `,
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, move it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonText: 'Confirm Move to Trash',
+        cancelButtonText: 'Cancel',
+        didOpen: () => {
+            document.querySelectorAll('.selectable-field').forEach(field => {
+                field.addEventListener('click', function () {
+                    let key = this.getAttribute('data-key');
+                    if (invalidFields.includes(key)) {
+                        invalidFields = invalidFields.filter(f => f !== key);
+                        this.style.color = ''; // Revert color
+                    } else {
+                        invalidFields.push(key);
+                        this.style.color = 'red'; // Highlight in red
+                    }
+                });
+            });
+        }
     }).then((result) => {
         if (result.isConfirmed) {
+            if (invalidFields.length === 0) {
+                Swal.fire('Error', 'Please select at least one incorrect field.', 'error');
+                return;
+            }
+
+            statusReason = invalidFields.map(field => {
+                switch (field) {
+                    case 'name': return 'Name is incorrect.';
+                    case 'address': return 'Address is incorrect.';
+                    case 'birthday': return 'Birthday is incorrect.';
+                    case 'yearsStayed': return 'Years Stayed is incorrect.';
+                    case 'contact': return 'Contact is incorrect.';
+                    default: return '';
+                }
+            }).join(' ');
+
             Swal.fire({
-                title: 'Processing...',
-                html: 'Moving to trash...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
+                title: 'Are you sure?',
+                text: "Do you really want to move this record to trash?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, move it!',
+                cancelButtonText: 'Cancel'
+            }).then((confirmation) => {
+                if (confirmation.isConfirmed) {
+                    window.location.href = `trash.php?id=${id}&type=done&status_reason=${encodeURIComponent(statusReason)}`;
+
                 }
             });
-
-            // Mag-redirect sa trash.php pagkatapos ng 1.5 seconds
-            setTimeout(() => {
-                window.location.href = 'trash.php?id=' + id + '&type=done';
-            }, 1500);
         }
     });
 }
+
+
     //Function to show loading spinner
     function showLoadingSpinner() {
     Swal.fire({

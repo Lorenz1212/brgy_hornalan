@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="password">Password:</label>
         <div class="password-container">
-            <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password"  required>
             <i class="fa-solid fa-eye toggle-password"
             onmousedown="holdPassword('password', this)" 
             onmouseup="releasePassword('password', this)" 
@@ -99,107 +99,92 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     document.getElementById("signupForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Pigilan ang default form submission
+    event.preventDefault(); // Pigilan ang default form submission
 
-        let email = document.getElementById("user").value.trim();
-        let emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-        let password = document.getElementById("password").value;
-        let confirmPassword = document.getElementById("confirm_password").value;
-        let form = this;
-        let formData = new FormData(form);
+    let email = document.getElementById("user").value.trim();
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirm_password").value;
+    let form = this;
+    let formData = new FormData(form);
 
-        if (!emailPattern.test(email)) {
-            Swal.fire({
-                icon: "error",
-                title: "Invalid Email",
-                text: "Use a valid Gmail address.",
-                width: "300px",
-                padding: "10px",
-                iconHtml: '<i class="fa fa-envelope"></i>',
-                customClass: {
-                    popup: 'small-popup',
-                    title: 'small-title',
-                    content: 'small-content'
-                }
-            });
-            return;
-        }
+    // ✅ Password Regex: 8+ characters, may uppercase, lowercase, number, at special character
+    let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-        if (password !== confirmPassword) {
-            Swal.fire({
-                icon: "error",
-                title: "Passwords do not match!",
-                confirmButtonColor: "#d33",
-                width: "300px",
-                padding: "10px",
-                iconHtml: '<i class="fa fa-lock"></i>',
-                customClass: {
-                    popup: 'small-popup',
-                    title: 'small-title',
-                    content: 'small-content'
-                }
-            });
-            return;
-        }
-
-        fetch(form.action, {
-            method: form.method,
-            body: formData
-        })
-        .then(response => response.text())
-        .then(responseText => {
-            if (responseText.includes("Signup Successful")) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Your account has been created successfully!',
-                    icon: 'success',
-                    confirmButtonColor: '#16a085',
-                    width: "300px",  // ✅ Liitan ang popup width
-                    padding: "10px",  // ✅ Mas compact ang spacing
-                    customClass: {
-                        popup: 'small-popup',  
-                        title: 'small-title',
-                        content: 'small-content'
-                    }
-                }).then(() => {
-                    window.location.href = "user.php";
-                });
-
-            } else if (responseText.includes("Username already exists")) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Username Taken!",
-                    text: "Please choose another username.",
-                    confirmButtonColor: "#d33",
-                    width: "300px",
-                    padding: "10px",
-                    customClass: {
-                        popup: 'small-popup',
-                        title: 'small-title',
-                        content: 'small-content'
-                    }
-                });
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Signup Failed!",
-                    text: responseText,
-                    confirmButtonColor: "#d33",
-                    width: "300px",
-                    padding: "10px",
-                    customClass: {
-                        popup: 'small-popup',
-                        title: 'small-title',
-                        content: 'small-content'
-                    }
-                });
+    if (!emailPattern.test(email)) {
+        Swal.fire({
+            icon: "error",
+            title: "Invalid Email",
+            text: "Use a valid Gmail address.",
+            iconHtml: '<i class="fa fa-envelope"></i>',
+            customClass: {
+                popup: 'small-popup',
+                title: 'small-title',
+                content: 'small-content'
             }
-        })
-        .catch(error => {
+        });
+        return;
+    }
+
+    if (!passwordPattern.test(password)) {
+        Swal.fire({
+            icon: "error",
+            title: "Weak Password!",
+            text: "Password must be at least 8 characters long, and include uppercase, lowercase, number, and special character.",
+            confirmButtonColor: "#d33",
+            iconHtml: '<i class="fa fa-lock"></i>',
+            customClass: {
+                popup: 'small-popup',
+                title: 'small-title',
+                content: 'small-content'
+            }
+        });
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        Swal.fire({
+            icon: "error",
+            title: "Passwords do not match!",
+            confirmButtonColor: "#d33",
+            iconHtml: '<i class="fa fa-lock"></i>',
+            customClass: {
+                popup: 'small-popup',
+                title: 'small-title',
+                content: 'small-content'
+            }
+        });
+        return;
+    }
+
+    fetch(form.action, {
+        method: form.method,
+        body: formData
+    })
+    .then(response => response.text())
+    .then(responseText => {
+        if (responseText.includes("Signup Successful")) {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Your account has been created successfully!',
+                icon: 'success',
+                confirmButtonColor: '#16a085',
+                width: "300px",
+                padding: "10px",
+                customClass: {
+                    popup: 'small-popup',  
+                    title: 'small-title',
+                    content: 'small-content'
+                }
+            }).then(() => {
+                window.location.href = "user.php";
+            });
+
+        } else if (responseText.includes("Username already exists")) {
             Swal.fire({
                 icon: "error",
-                title: "Error!",
-                text: "Something went wrong. Please try again.",
+                title: "Username Taken!",
+                text: "Please choose another username.",
                 confirmButtonColor: "#d33",
                 width: "300px",
                 padding: "10px",
@@ -209,11 +194,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     content: 'small-content'
                 }
             });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Signup Failed!",
+                text: responseText,
+                confirmButtonColor: "#d33",
+                width: "300px",
+                padding: "10px",
+                customClass: {
+                    popup: 'small-popup',
+                    title: 'small-title',
+                    content: 'small-content'
+                }
+            });
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: "error",
+            title: "Error!",
+            text: "Something went wrong. Please try again.",
+            confirmButtonColor: "#d33",
+            width: "300px",
+            padding: "10px",
+            customClass: {
+                popup: 'small-popup',
+                title: 'small-title',
+                content: 'small-content'
+            }
         });
     });
+});
+
 </script>
 
 </body>
+<footer class="copyright">
+    &copy; 2025 Barangay Information System. All Rights Reserved.
+</footer>
+
+.copyright {
+    position: absolute;
+    bottom: 10px;
+    width: auto;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8); /* ✅ Medyo light ang kulay para hindi distracting */
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.2); /* ✅ Light overlay */
+    padding: 5px;
+    border-radius: 5px;
+}
+
 </html>
 
 <style>
@@ -357,5 +390,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 12px !important; /* ✅ Mas compact na text */
             
         }
+        .copyright {
+    position: absolute;
+    bottom: 10px;
+    width: auto;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8); /* ✅ Medyo light ang kulay para hindi distracting */
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.2); /* ✅ Light overlay */
+    padding: 5px;
+    border-radius: 5px;
+}
+
 
     </style>

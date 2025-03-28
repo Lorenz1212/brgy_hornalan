@@ -1,7 +1,24 @@
 <?php
+session_start();
 require '../connection/connect.php';
 
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0; // Initialize attempt counter
+}
+
+if (!isset($_SESSION['lockout_time'])) {
+    $_SESSION['lockout_time'] = 0; // Initialize lockout timer
+}
+
+$cooldown = 60; // Cooldown time in seconds
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check kung naka-lockout
+    if ($_SESSION['login_attempts'] >= 5 && time() < $_SESSION['lockout_time']) {
+        echo json_encode(["success" => false, "message" => "Too many failed attempts. Please try again in " . ($_SESSION['lockout_time'] - time()) . " seconds."]);
+        exit();
+    }
+
     $user = trim($_POST['user']);
     $password = trim($_POST['password']);
 
@@ -17,10 +34,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($password === $db_password) {
             $_SESSION['user'] = $db_user; // Set session
+            $_SESSION['login_attempts'] = 0; // Reset failed attempts
             echo json_encode(["success" => true, "redirect" => "prof.php"]);
             exit();
         } else {
-            echo json_encode(["success" => false, "message" => "Invalid password. Please try again."]);
+            $_SESSION['login_attempts']++; // Increase failed attempts
+            if ($_SESSION['login_attempts'] >= 5) {
+                $_SESSION['lockout_time'] = time() + $cooldown; // Set lockout timer
+                echo json_encode(["success" => false, "message" => "Too many failed attempts. Please wait 60 seconds before trying again."]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Invalid password. Attempts left: " . (5 - $_SESSION['login_attempts'])]);
+            }
             exit();
         }
     } else {
@@ -32,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -172,8 +197,6 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     event.preventDefault();
 
     let formData = new FormData(this);
-
-    // ✅ Disable login button & change text
     let loginButton = document.querySelector("button[name='login']");
     loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
     loginButton.disabled = true;
@@ -186,11 +209,11 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     .then(data => {
         if (data.success) {
             Swal.fire({
-                icon: 'success', // ✅ Check icon animation
+                icon: 'success',
                 title: 'Login Successful!',
                 text: 'Redirecting...',
                 showConfirmButton: false,
-                timer: 1500, // ✅ Wait for check animation
+                timer: 1500,
                 willClose: () => {
                     Swal.fire({
                         title: "Redirecting...",
@@ -198,26 +221,23 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
                         showConfirmButton: false,
                         allowOutsideClick: false
                     });
-
                     setTimeout(() => {
-                        window.location.href = data.redirect; // 🔥 Redirect after spinner
+                        window.location.href = data.redirect;
                     }, 2000);
                 }
             });
-
         } else {
+            if (data.message.includes("Too many failed attempts")) {
+                let secondsLeft = parseInt(data.message.match(/\d+/)[0]); // Extract countdown
+                startCooldown(secondsLeft);
+            }
+
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: data.message,
-                customClass: {
-                    popup: 'small-popup',
-                    title: 'small-title',
-                    content: 'small-content'
-                }
+                text: data.message
             });
 
-            // ✅ Ibalik ang normal login button kung may error
             loginButton.innerHTML = 'Login';
             loginButton.disabled = false;
         }
@@ -230,11 +250,27 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
             text: 'Something went wrong. Please try again.'
         });
 
-        // ✅ Ibalik ang normal login button kung may error
         loginButton.innerHTML = 'Login';
         loginButton.disabled = false;
     });
 });
+
+// ✅ Function para sa cooldown timer
+function startCooldown(seconds) {
+    let loginButton = document.querySelector("button[name='login']");
+    loginButton.disabled = true;
+    let countdown = setInterval(() => {
+        if (seconds <= 0) {
+            clearInterval(countdown);
+            loginButton.innerHTML = "Login";
+            loginButton.disabled = false;
+        } else {
+            loginButton.innerHTML = "Try again in " + seconds + "s";
+            seconds--;
+        }
+    }, 1000);
+}
+
 
     document.addEventListener("DOMContentLoaded", function () {
         let toggleIcon = document.getElementById("togglePassword");

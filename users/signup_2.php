@@ -158,52 +158,114 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // ✅ Restrict future dates in birthday field
-            let today = new Date().toISOString().split("T")[0];
-            document.getElementById("birthday").setAttribute("max", today);
-        });
+document.addEventListener("DOMContentLoaded", function () {
+    let addressInput = document.getElementById("address");
 
-        let addressInput = document.getElementById("address");
-        let restrictedWords = ["barangay", "brgy", "calamba", "laguna"];
-        let alertShown = { barangay: false, brgy: false, calamba: false, laguna: false };
+    // ✅ Updated Regex - Hindi na mahigpit sa commas
+    let validAddressPattern = /^(Blk|Block)\s\d+(?:,\s?| )?(Lot\s\d+(?:,\s?| )?)?(Purok\s\d+(?:,\s?| )?)?[A-Za-z0-9\s]+$/i;
 
-        // ✅ Real-time validation per restricted word
-        addressInput.addEventListener("input", function () {
-            let address = addressInput.value.toLowerCase();
+    // ✅ Restricted words na bawal sa address
+    let restrictedWords = ["barangay", "brgy", "calamba", "laguna"];
 
-            restrictedWords.forEach(word => {
-                if (address.includes(word) && !alertShown[word]) {
-                    alertShown[word] = true; // Mark as shown
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Invalid Format",
-                        text: "Do not include '" + word.charAt(0).toUpperCase() + word.slice(1) + "'.",
-                        confirmButtonColor: "#d33"
-                    }).then(() => {
-                        addressInput.value = address.replace(word, "").trim(); // Remove restricted word
-                        alertShown[word] = false; // Reset alert flag
-                    });
-                }
-            });
-        });
+    addressInput.addEventListener("input", function () {
+        let address = addressInput.value.trim().toLowerCase();
 
-        // ✅ Final validation before form submission
-        document.getElementById("signupForm").addEventListener("submit", function(event) {
-            let address = addressInput.value.toLowerCase();
-            for (let word of restrictedWords) {
-                if (address.includes(word)) {
-                    event.preventDefault(); // ❌ Prevent submission
-                    Swal.fire({
-                        icon: "warning",
-                        title: "Invalid Format",
-                        text: "Do not include '" + word.charAt(0).toUpperCase() + word.slice(1) + "'.",
-                        confirmButtonColor: "#d33"
-                    });
-                    return;
-                }
+        // ✅ Bawal isama ang barangay, calamba, laguna
+        restrictedWords.forEach(word => {
+            if (address.includes(word)) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Invalid Format",
+                    text: "Do not include '" + word.charAt(0).toUpperCase() + word.slice(1) + "' in the address.",
+                    confirmButtonColor: "#d33"
+                }).then(() => {
+                    addressInput.value = address.replace(word, "").trim(); // Alisin ang restricted word
+                });
             }
         });
+    });
+
+    // ✅ Final validation bago mag-submit ng form
+    document.getElementById("signupForm").addEventListener("submit", function (event) {
+        let address = addressInput.value.trim();
+
+        if (!validAddressPattern.test(address)) {
+            event.preventDefault(); // ❌ Prevent form submission
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Address Format",
+                text: "Address must follow the correct format. Example: 'Blk 12, Lot 5, Purok 1, Greenfield Subd.'",
+                confirmButtonColor: "#d33"
+            });
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    let birthdayInput = document.getElementById("birthday");
+    let signupForm = document.getElementById("signupForm");
+
+    // ✅ Kuhanin ang kasalukuyang petsa (TODAY) at tanggalin ang oras
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // ✅ I-set ang max date para hindi makapag-input ng future date
+    let maxDate = new Date(today);
+    maxDate.setDate(today.getDate() - 1); // Kahapon ang max limit
+    birthdayInput.setAttribute("max", maxDate.toISOString().split("T")[0]);
+
+    // ✅ Final validation kapag mag-submit na ng form
+    signupForm.addEventListener("submit", function (event) {
+        let selectedDate = new Date(birthdayInput.value);
+        let selectedYear = parseInt(birthdayInput.value.split("-")[0]); // Kunin ang year bilang number
+
+        // ✅ Bawal ang future date at current date
+        if (selectedDate >= today) {
+            event.preventDefault(); // ❌ Prevent form submission
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Date",
+                text: "Birthday must be a past date (not today or future).",
+                confirmButtonColor: "#d33"
+            });
+            return;
+        }
+
+        // ✅ Siguraduhin na ang year ay may 4 digits at hindi bababa sa 1900
+        if (selectedYear < 1900 || selectedYear > today.getFullYear()) {
+            event.preventDefault(); // ❌ Prevent form submission
+            Swal.fire({
+                icon: "error",
+                title: "Invalid Year Format",
+                text: "Year must be between 1900 and " + today.getFullYear() + ".",
+                confirmButtonColor: "#d33"
+            });
+        }
+    });
+});
+
+
     </script>
 </body>
+
+<footer class="copyright">
+    &copy; 2025 Barangay Information System. All Rights Reserved.
+</footer>
+
+<style>
+.copyright {
+    position: absolute;
+    bottom: 10px;
+    width: auto;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8); /* ✅ Medyo light ang kulay para hindi distracting */
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.2); /* ✅ Light overlay */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+</style>
 </html>

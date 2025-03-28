@@ -14,6 +14,8 @@ if (isset($_GET['userID'])) {
         // Check if passwords match
         if ($new_password !== $confirm_password) {
             $_SESSION['error'] = "Passwords do not match. Please try again.";
+        } elseif (strlen($new_password) < 8) {
+            $_SESSION['error'] = "Password must be at least 8 characters long.";
         } else {
             // Update password sa database (walang hashing)
             $query = "UPDATE users SET password = ? WHERE userID = ?";
@@ -197,6 +199,19 @@ if (isset($_GET['userID'])) {
             }
         }
 
+        .strength-indicator {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+        font-weight: bold;
+        color: gray;
+    }
+    .weak { color: red; }
+    .medium { color: orange; }
+    .strong { color: green; }
+
     </style>
 </head>
 <body>
@@ -206,11 +221,12 @@ if (isset($_GET['userID'])) {
 
     <!-- Reset Password Form -->
     <form action="reset_password.php?userID=<?php echo htmlspecialchars($userID); ?>" method="POST">
-        <div class="input-container">
-            <i class="fas fa-lock lock-icon"></i>
-            <input type="password" id="new_password" name="new_password" placeholder="Enter New Password" required>
-            <i class="fas fa-eye eye-icon" id="toggleNewPassword"></i>
-        </div>
+    <div class="input-container">
+        <i class="fas fa-lock lock-icon"></i>
+        <input type="password" id="new_password" name="new_password" placeholder="Enter New Password" required onkeyup="checkPasswordStrength()">
+        <i class="fas fa-eye eye-icon" id="toggleNewPassword"></i>
+        <span id="password-strength" class="strength-indicator"></span>
+    </div>
 
         <div class="input-container">
             <i class="fas fa-lock lock-icon"></i>
@@ -306,6 +322,27 @@ if (isset($_GET['userID'])) {
     }
 });
 
+
+function checkPasswordStrength() {
+    let password = document.getElementById("new_password").value;
+    let strengthIndicator = document.getElementById("password-strength");
+    
+    let strength = "Weak";
+    let strengthClass = "weak";
+    
+    if (password.length >= 8) {
+        if (/[A-Z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            strength = "Strong";
+            strengthClass = "strong";
+        } else if (/[A-Z]/.test(password) || /[0-9]/.test(password)) {
+            strength = "Medium";
+            strengthClass = "medium";
+        }
+    }
+    
+    strengthIndicator.textContent = strength;
+    strengthIndicator.className = "strength-indicator " + strengthClass;
+}
 </script>
 
 </body>

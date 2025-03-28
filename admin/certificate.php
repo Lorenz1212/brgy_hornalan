@@ -63,7 +63,6 @@ $result = mysqli_query($conn, $query);
                         <th>Purpose</th>
                         <th>Scheduled Date</th>
                         <th>Payment</th>
-                        <th>Username</th>
                         <th>Contact</th>
                         <th>Action</th>
                     </tr>
@@ -79,12 +78,22 @@ $result = mysqli_query($conn, $query);
                             <td><?php echo $row['purpose']; ?></td>
                             <td><?php echo date("F d, Y", strtotime($row['date'])); ?></td><!-- Para maging format "March 20, 2025" -->
                             <td>₱<?php echo $row['amount']; ?></td>
-                            <td><?php echo $row['username']; ?></td>
                             <td><?php echo $row['contact']; ?></td>
                             <td>
                                 <div class="btn-container">
                                     <button class="btn print-btn" onclick="openPrintModal('<?php echo $row['name']; ?>', '<?php echo $row['address']; ?>', '<?php echo $row['birthday']; ?>', '<?php echo $row['year_stay_in_brgy']; ?>', '<?php echo $row['purpose']; ?>', '<?php echo $row['type']; ?>', '<?php echo $row['id']; ?>')">🖨 Print</button>
-                                    <a href="javascript:void(0);" class="btn trash-btn" onclick="confirmTrash('<?php echo $row['id']; ?>')">🗑 Trash</a>
+                                    <a href="javascript:void(0);" 
+                                    class="btn trash-btn" 
+                                    onclick="confirmTrash(
+                                        '<?php echo $row['id']; ?>', 
+                                        '<?php echo addslashes($row['name']); ?>', 
+                                        '<?php echo addslashes($row['address']); ?>', 
+                                        '<?php echo $row['birthday']; ?>', 
+                                        '<?php echo $row['year_stay_in_brgy']; ?>', 
+                                        '<?php echo addslashes($row['contact']); ?>'
+                                    )">
+                                    🗑 Trash
+                                </a>
                                 </div>
                             </td>
                         </tr>
@@ -168,8 +177,8 @@ $result = mysqli_query($conn, $query);
     document.getElementById("residentAddress").innerText = address;
     document.getElementById("residentBirthday").innerText = formattedBirthday; // ✅ Updated
     document.getElementById("yearsStayed").innerText = years;
-    document.getElementById("clearancePurpose").innerText = purpose;
-    document.getElementById("clearanceDate").innerText = new Date().toLocaleDateString('en-US', {
+    document.getElementById("certificatePurpose").innerText = purpose;
+    document.getElementById("Date").innerText = new Date().toLocaleDateString('en-US', {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
@@ -180,65 +189,131 @@ $result = mysqli_query($conn, $query);
     document.getElementById("printModal").style.display = "block";
 }
 
-
-        function printCertificate(id) {
+function closePrintModal() {
+        document.getElementById("printModal").style.display = "none";
+    }
+       
+    // Function to trigger the print dialog
+    function printCertificate(id) {
     if (!id) {
-        console.error("Walang ID na ipinasa!");
+        console.error("❌ Walang ID na ipinasa!");
         return;
     }
 
-    // Trigger the print dialog
-    window.print();
-
-    // Use the onafterprint event to check if the user has finished printing
-    window.onafterprint = function () {
-        // Wait for 3 seconds after the print dialog closes before sending the update
-        setTimeout(function () {
-            let xhr = new XMLHttpRequest();
-            xhr.open("POST", "printed.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log("✅ Natapos na ang pag-print. In-update na ang record.");
-                    window.location.href = "printed.php"; // Redirect after updating the record
-                }
-            };
-            xhr.send("id=" + id);
-        }, 3000); // Delay to ensure print dialog is fully closed
+    let beforePrint = () => {
+        console.log("🖨 Print dialog opened...");
     };
+
+    let afterPrint = () => {
+        console.log("✅ Print finished! Checking if it was successful...");
+        
+        Swal.fire({
+            title: "Did you print the document?",
+            text: "Click 'Yes' if the document was successfully printed.",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes, I printed it",
+            cancelButtonText: "No, Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log("✅ User confirmed print. Updating record...");
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "printed.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log("✅ Record updated successfully!");
+                        window.location.href = "printed.php"; // Redirect after update
+                    }
+                };
+                xhr.send("id=" + id);
+            } else {
+                console.log("❌ User canceled print confirmation. No update.");
+            }
+        });
+    };
+
+    // ✅ Listen for print events
+    window.matchMedia('print').addListener((e) => {
+        if (e.matches) beforePrint();
+        else afterPrint();
+    });
+
+    // ✅ Open Print Dialog
+    window.print();
 }
 
 
+function confirmTrash(id, name, address, birthday, yearsStayed, contact) {
+    let invalidFields = []; // Store incorrect fields
+    let statusReason = ""; // Store reason for trash
 
-
-function confirmTrash(id) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want to move this record to trash?",
-        icon: 'warning',
+        title: 'Select Incorrect Fields',
+        html: `
+            <p><strong>Click the incorrect fields:</strong></p>
+            <div id="fieldContainer">
+                <p class="selectable-field" data-key="name">Name: <span>${name}</span></p>
+                <p class="selectable-field" data-key="address">Address: <span>${address}</span></p>
+                <p class="selectable-field" data-key="birthday">Birthday: <span>${birthday}</span></p>
+                <p class="selectable-field" data-key="yearsStayed">Years Stayed: <span>${yearsStayed}</span></p>
+                <p class="selectable-field" data-key="contact">Contact: <span>${contact}</span></p>
+            </div>
+        `,
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, move it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonText: 'Confirm Move to Trash',
+        cancelButtonText: 'Cancel',
+        didOpen: () => {
+            document.querySelectorAll('.selectable-field').forEach(field => {
+                field.addEventListener('click', function () {
+                    let key = this.getAttribute('data-key');
+                    if (invalidFields.includes(key)) {
+                        invalidFields = invalidFields.filter(f => f !== key);
+                        this.style.color = ''; // Revert color
+                    } else {
+                        invalidFields.push(key);
+                        this.style.color = 'red'; // Highlight in red
+                    }
+                });
+            });
+        }
     }).then((result) => {
         if (result.isConfirmed) {
+            if (invalidFields.length === 0) {
+                Swal.fire('Error', 'Please select at least one incorrect field.', 'error');
+                return;
+            }
+
+            statusReason = invalidFields.map(field => {
+                switch (field) {
+                    case 'name': return 'Name is incorrect.';
+                    case 'address': return 'Address is incorrect.';
+                    case 'birthday': return 'Birthday is incorrect.';
+                    case 'yearsStayed': return 'Years Stayed is incorrect.';
+                    case 'contact': return 'Contact is incorrect.';
+                    default: return '';
+                }
+            }).join(' ');
+
             Swal.fire({
-                title: 'Processing...',
-                html: 'Moving to trash...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
+                title: 'Are you sure?',
+                text: "Do you really want to move this record to trash?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, move it!',
+                cancelButtonText: 'Cancel'
+            }).then((confirmation) => {
+                if (confirmation.isConfirmed) {
+                    window.location.href = `trash.php?id=${id}&type=certificate&status_reason=${encodeURIComponent(statusReason)}`;
+
                 }
             });
-
-            // Mag-redirect sa trash.php pagkatapos ng 1.5 seconds
-            setTimeout(() => {
-                window.location.href = 'trash.php?id=' + id + '&type=certificate';
-            }, 1500);
         }
     });
 }
+
+
 
 // Inactivity timer - logout after 5 minutes of inactivity
 let timeout;
@@ -456,5 +531,87 @@ body {
         display: none;
     }
 }
+
+/* Custom Styles for SweetAlert2 Popup */
+.swal-container {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.swal-popup {
+    border-radius: 10px;
+    padding: 20px;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.swal-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.swal-content {
+    font-size: 16px;
+    color: #555;
+}
+
+.selectable-field {
+    font-size: 14px;
+    margin: 10px 0;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #eaf1f1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.selectable-field:hover {
+    background-color: #d5e6e6;
+}
+
+.swal-confirm-btn {
+    background-color: #27ae60;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.swal-confirm-btn:hover {
+    background-color: #2ecc71;
+}
+
+.swal-cancel-btn {
+    background-color: #e74c3c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.swal-cancel-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Highlight incorrect fields in red */
+.selectable-field.red {
+    color: red;
+    font-weight: bold;
+}
+
+/* Adjust the input text in the popup */
+.selectable-field span {
+    font-weight: normal;
+    color: #555;
+}
+
 
 </style>

@@ -3,80 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Secure System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Admin Process Diagram</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.14.1/flowchart.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 350px;
+            margin: 20px;
         }
-        .login-container h2 {
-            margin-bottom: 20px;
-        }
-        .input-group {
-            margin-bottom: 15px;
+        #diagram {
+            width: 90%;
+            margin: auto;
             text-align: left;
-        }
-        .input-group label {
-            font-weight: bold;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 10px;
-            background: #1abc9c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn-login:hover {
-            background: #16a085;
-        }
-        .footer {
-            margin-top: 15px;
-            font-size: 12px;
-            color: gray;
+            border: 1px solid #ddd;
+            padding: 20px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2><i class="fa fa-lock"></i> Login</h2>
-        <form action="authenticate.php" method="POST">
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn-login">Login</button>
-        </form>
-        <p class="footer">&copy; 2025 Secure System. All Rights Reserved.</p>
-    </div>
+    <h2>Process Diagram: Admin Workflow</h2>
+    <div id="diagram"></div>
+    <script>
+        var diagramCode = `st=>start: Admin Logs In
+verify=>operation: System Checks Login Details
+cond1=>condition: Login Successful?
+dashboard=>operation: Redirect to Dashboard
+error=>operation: Show Error Message
+menu=>operation: Display Sidebar & Navbar
+view=>operation: Admin Sees Requests, Officials, Residents, Walk-ins, Graphs, Notifications
+select=>operation: Admin Selects a Request
+cond2=>condition: Approve or Reject?
+approve=>operation: Send Email to Resident & Move to Clearance/Certificate
+reject=>operation: Send Email to Resident & Move to Recycle Bin
+print=>operation: Print Document & Notify Resident
+printed=>operation: Move to Printed Documents
+markdone=>operation: Mark as Done & Notify Resident
+claiming=>operation: Move to Claiming Section
+claimed=>operation: Resident Claims & Final Notification
+history=>operation: Move to History
+recycle=>operation: Recycle Bin Handling (Restore/Delete)
+logout=>operation: Admin Logs Out
+end=>end: Session Destroyed & Redirect to Login
+
+st->verify->cond1
+cond1(yes)->dashboard->menu->view->select->cond2
+cond1(no)->error->st
+cond2(yes)->approve->print->printed->markdone->claiming->claimed->history->end
+cond2(no)->reject->recycle->end
+logout->end`;
+        
+        flowchart.parse(diagramCode).drawSVG("diagram");
+    </script>
 </body>
 </html>
-<footer>
-    <p>&copy; 2025 My Company. All Rights Reserved.</p>
-</footer>

@@ -46,14 +46,19 @@ if (isset($_GET['id']) && isset($_GET['type']) && isset($_SERVER['HTTP_REFERER']
         $row = $result->fetch_assoc();
         
         if ($row) {
-            $insertQuery = "INSERT INTO $tableTrash (type, name, address, birthday, year_stay_in_brgy, purpose, date, amount, username, contact, status, original_table) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $insertQuery = "INSERT INTO $tableTrash (type, name, address, birthday, year_stay_in_brgy, purpose, date, amount, username, contact, status, original_table, status_reason) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
             $insertStmt = $conn->prepare($insertQuery);
-            $insertStmt->bind_param("ssssissdssss", 
-                $row['type'], $row['name'], $row['address'], $row['birthday'], 
-                $row['year_stay_in_brgy'], $row['purpose'], $row['date'], 
-                $row['amount'], $row['username'], $row['contact'], $row['status'], $tableFrom
-            );
+            $status_reason = isset($_GET['status_reason']) ? $_GET['status_reason'] : "No reason provided"; // Default reason kung walang laman
+
+            $insertStmt->bind_param("ssssissdsssss", 
+            $row['type'], $row['name'], $row['address'], $row['birthday'], 
+            $row['year_stay_in_brgy'], $row['purpose'], $row['date'], 
+            $row['amount'], $row['username'], $row['contact'], $row['status'], 
+            $tableFrom, $status_reason
+        );
+        
 
             if ($insertStmt->execute()) {
                 $deleteQuery = "DELETE FROM $tableFrom WHERE id=?";

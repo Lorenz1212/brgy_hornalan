@@ -2,18 +2,28 @@
 session_start();
 require '../connection/connect.php';
 
+if (!isset($_SESSION['admin_login_attempts'])) {
+    $_SESSION['admin_login_attempts'] = 0; // Init admin attempt counter
+}
+
+if (!isset($_SESSION['admin_lockout_time'])) {
+    $_SESSION['admin_lockout_time'] = 0; // Init admin lockout timer
+}
+
+$cooldown = 60; // 60-second cooldown
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // ✅ Check if admin is currently locked out
+    if ($_SESSION['admin_login_attempts'] >= 5 && time() < $_SESSION['admin_lockout_time']) {
+        echo json_encode(["success" => false, "message" => "Too many failed attempts. Try again in " . ($_SESSION['admin_lockout_time'] - time()) . " seconds."]);
+        exit();
+    }
+
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
     $query = "SELECT username, password, session_active FROM admin WHERE username = ?";
     $stmt = $conn->prepare($query);
-
-    if (!$stmt) {
-        echo json_encode(["success" => false, "message" => "Database error: " . $conn->error]);
-        exit();
-    }
-
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
@@ -23,12 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->fetch();
 
         if ($session_active == 1) {
-            echo json_encode(["success" => false, "message" => "This account is already logged in. Please log out first."]);
+            echo json_encode(["success" => false, "message" => "This account is already logged in."]);
             exit();
         }
 
+        // ✅ Check if password is correct
         if ($password === $db_password) {
             $_SESSION['username'] = $db_user;
+            $_SESSION['admin_login_attempts'] = 0; // Reset failed attempts
 
             $updateQuery = "UPDATE admin SET session_active = 1 WHERE username = ?";
             $updateStmt = $conn->prepare($updateQuery);
@@ -39,7 +51,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(["success" => true, "redirect" => "admin_dashboard.php"]);
             exit();
         } else {
-            echo json_encode(["success" => false, "message" => "Incorrect password."]);
+            // ✅ Increase attempt counter
+            $_SESSION['admin_login_attempts']++;
+
+            // ✅ Lockout on exactly 5th failed attempt
+            if ($_SESSION['admin_login_attempts'] === 5) {
+                $_SESSION['admin_lockout_time'] = time() + $cooldown;
+                echo json_encode(["success" => false, "message" => "Too many failed attempts. Please wait 60 seconds before trying again."]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Incorrect password. Attempts left: " . (5 - $_SESSION['admin_login_attempts'])]);
+            }
             exit();
         }
     } else {
@@ -50,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -98,9 +120,8 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     event.preventDefault();
 
     let formData = new FormData(this);
-
-    // ✅ Disable login button habang naglo-load
     let loginButton = document.querySelector("button[name='login']");
+    
     loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
     loginButton.disabled = true;
 
@@ -111,37 +132,29 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data); // Debugging
-
         if (data.success) {
             Swal.fire({
-                icon: 'success', // ✅ May Check Icon muna
+                icon: 'success',
                 title: 'Login Successful!',
                 text: 'Redirecting...',
                 showConfirmButton: false,
-                timer: 1500, // ✅ Hintayin ang animation ng check icon bago lumabas ang spinner
-                willClose: () => {
-                    Swal.fire({
-                        title: "Redirecting...",
-                        html: '<div class="spinner"></div>',
-                        showConfirmButton: false,
-                        allowOutsideClick: false
-                    });
-
-                    setTimeout(() => {
-                        window.location.href = data.redirect; // 🔥 Redirect after spinner
-                    }, 2000);
-                }
+                timer: 1500
+            }).then(() => {
+                window.location.href = data.redirect;
             });
 
         } else {
+            if (data.message.includes("Try again in")) {
+                let secondsLeft = parseInt(data.message.match(/\d+/)[0]);
+                startCooldown(secondsLeft);
+            }
+
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: data.message
             });
 
-            // ✅ Ibalik ang normal na login button kung may error
             loginButton.innerHTML = 'Login';
             loginButton.disabled = false;
         }
@@ -154,11 +167,28 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
             text: 'Something went wrong. Please try again.'
         });
 
-        // ✅ Ibalik ang normal na login button kung may error
         loginButton.innerHTML = 'Login';
         loginButton.disabled = false;
     });
 });
+
+// ✅ Function para sa cooldown button
+function startCooldown(seconds) {
+    let loginButton = document.querySelector("button[name='login']");
+    loginButton.disabled = true;
+    let countdown = setInterval(() => {
+        if (seconds <= 0) {
+            clearInterval(countdown);
+            loginButton.innerHTML = "Login";
+            loginButton.disabled = false;
+        } else {
+            loginButton.innerHTML = "Try again in " + seconds + "s";
+            seconds--;
+        }
+    }, 1000);
+}
+
+
 
     // Password toggle visibility (eye icon)
     var passwordField = document.getElementById("password");

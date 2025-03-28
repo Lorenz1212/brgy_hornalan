@@ -229,3 +229,23 @@ session_start(); // Start the session
     });
 </script>
 
+<footer class="copyright">
+    &copy; 2025 Barangay Information System. All Rights Reserved.
+</footer>
+
+<style>
+.copyright {
+    position: absolute;
+    bottom: 10px;
+    width: auto;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8); /* ✅ Medyo light ang kulay para hindi distracting */
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.2); /* ✅ Light overlay */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+</style>

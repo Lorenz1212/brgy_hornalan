@@ -215,6 +215,21 @@ $result = mysqli_query($conn, $query);
     background-color: #c0392b; /* Darker blue on hover */
 }
 
+/* ✅ Delete Button */
+.delete-btn {
+    background: #e74c3c;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
     </style>
 </head>
 <body>
@@ -250,6 +265,7 @@ $result = mysqli_query($conn, $query);
                     <th>Civil Status</th>
                     <th>Occupation</th>
                     <th>Contact Number</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -263,6 +279,11 @@ $result = mysqli_query($conn, $query);
                         <td><?php echo htmlspecialchars($row['civil_status']); ?></td>
                         <td><?php echo htmlspecialchars($row['occupation_source_of_income']); ?></td>
                         <td><?php echo htmlspecialchars($row['contact_number']); ?></td>
+                        <td>
+                            <div class="btn-container">
+                                <a href="javascript:void(0);" onclick="deleteResident('<?php echo $row['id']; ?>')" class="btn delete-btn">🗑 Delete</a>
+                            </div>
+                            </td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -306,6 +327,35 @@ $(document).ready(function() {
     });
 });
 
+// ✅ Delete Single Resident
+function deleteResident(id) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You are about to delete this resident!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'delete_resident.php',
+                type: 'POST',
+                data: { id: id },
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Resident Deleted!',
+                        confirmButtonColor: '#28a745'
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
+            });
+        }
+    });
+}
 
 // Inactivity timer - logout after 5 minutes of inactivity
 let timeout;

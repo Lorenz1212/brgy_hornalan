@@ -53,7 +53,7 @@ $result = mysqli_query($conn, $query);
                         <th>Purpose</th>
                         <th>Scheduled Date</th>
                         <th>Payment</th>
-                        <th>Username</th>
+                        <th>Email</th>
                         <th>Contact</th>
                         <th>Action</th>
                     </tr>

@@ -388,7 +388,6 @@ body {
         <th>Purpose</th>
         <th>Scheduled Date</th>
         <th>Payment</th>
-        <th>Username</th>
         <th>Contact</th>
         <th>Claimed Date</th>
     </tr>
@@ -404,7 +403,6 @@ body {
             <td><?php echo htmlspecialchars($row['purpose']); ?></td>
             <td><?php echo date("F d, Y", strtotime($row['date'])); ?></td><!-- Para maging format "March 20, 2025" -->
             <td>₱<?php echo number_format($row['amount'], 2); ?></td>
-            <td><?php echo htmlspecialchars($row['username']); ?></td>
             <td><?php echo htmlspecialchars($row['contact']); ?></td>
             <td><?php echo date("F d, Y", strtotime($row['claimed_date'])); ?></td>
         </tr>

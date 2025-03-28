@@ -65,7 +65,6 @@ $result = mysqli_query($conn, $query);
                         <th>Purpose</th>
                         <th>Scheduled Date</th>
                         <th>Payment</th>
-                        <th>Username</th>
                         <th>Contact</th>
                         <th>Action</th>
                     </tr>
@@ -81,7 +80,6 @@ $result = mysqli_query($conn, $query);
                             <td><?php echo $row['purpose']; ?></td>
                             <td><?php echo date("F d, Y", strtotime($row['date'])); ?></td><!-- Para maging format "March 20, 2025" -->
                             <td>₱<?php echo $row['amount']; ?></td>
-                            <td><?php echo $row['username']; ?></td>
                             <td><?php echo $row['contact']; ?></td>
 
                             <td >

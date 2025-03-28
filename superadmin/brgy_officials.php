@@ -265,7 +265,7 @@ h2{
 
     <div class="content-wrapper">
         <div class="header-container">
-            BARANGAY OFFICIALS
+        BARANGAY ELECTED OFFICIALS
         </div>
 
         <div class="add-btn-container">

@@ -131,7 +131,7 @@ header("Pragma: no-cache");
             </a>
             <a href="brgy_officials.php" class="box">
                 <i class="fa fa-users"></i>
-                <h2>Barangay Officials</h2>
+                <h2>Barangay Elected Officials</h2>
                 <p>Click to view details</p>
             </a>
             <a href="request.php" class="box">
