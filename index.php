@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../connection/connect.php';
+require 'connection/connect.php';
 
 if (!isset($_SESSION['admin_login_attempts'])) {
     $_SESSION['admin_login_attempts'] = 0; // Init admin attempt counter
