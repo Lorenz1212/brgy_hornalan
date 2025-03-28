@@ -17,7 +17,7 @@ if (!isset($_SESSION['user'])) {
             text: 'Please log in first.',
             confirmButtonColor: '#d33'
         }).then(() => {
-            window.location.href='users.php';
+            window.location.href='';
         });
     </script>";
     exit();
