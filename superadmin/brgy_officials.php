@@ -4,7 +4,7 @@ include '../connection/connect.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='superadmin_login.php';</script>";
+    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='index.php';</script>";
     exit();
 }
 
