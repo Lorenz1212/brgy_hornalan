@@ -5,7 +5,7 @@ include '../connection/connect.php';
 
 // Check kung may session username na
 if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='superadmin_login.php';</script>";
+    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='index.php';</script>";
     exit();
 }
 
