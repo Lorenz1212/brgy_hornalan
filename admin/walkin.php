@@ -4,7 +4,7 @@ include '../connection/connect.php';
 
 // Check if admin is logged in
 if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='admin_login.php';</script>";
+    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='index.php';</script>";
     exit();
 }
 
@@ -22,7 +22,7 @@ $stmt->close();
 if ($session_active == 0) {
     session_unset();
     session_destroy();
-    header("Location: admin_login.php");
+    header("Location: index.php");
     exit();
 }
 ?>

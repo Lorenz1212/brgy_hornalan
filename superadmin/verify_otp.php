@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             cancelButtonText: 'Cancel',
             width: '400px',
             didClose: () => { 
-                window.location.href = 'superadmin_login.php'; // Redirect when closed
+                window.location.href = 'index.php'; // Redirect when closed
             },
             preConfirm: (otp) => {
                 // Send OTP code to verify_otp.php using POST
