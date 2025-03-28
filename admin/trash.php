@@ -3,7 +3,7 @@ session_start();
 include '../connection/connect.php'; // Database Connection
 // ✅ Check kung naka-login ang user
 if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='admin_login.php';</script>";
+    echo "<script>alert('Unauthorized access! Please log in first.'); window.location.href='index.php';</script>";
     exit();
 }
 
